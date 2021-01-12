@@ -1,0 +1,14 @@
+
+J
+java:S1481"-Remove this unused "password" local variable.(‚ëöø8ÎËÓ¶í.
+Y
+java:S1854"<Remove this useless assignment to local variable "password".(‚ëöø8ÎËÓ¶í.
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(”º°Ïşÿÿÿÿ
+c
+java:S1854"ARemove this useless assignment to local variable "verifyAccount".(®½ÿùÿÿÿÿ8µğÖ¶í.
+d
+java:S4488"HReplace "@RequestMapping(method = RequestMethod.GET)" with "@GetMapping"(ŸÑ)8Î¯¾¶í.
+L
+java:S1068"*Remove this unused "logger" private field.(—­Š›ùÿÿÿÿ8ˆ¨Øµí.
+T
+java:S1481"2Remove this unused "verifyAccount" local variable.(®½ÿùÿÿÿÿ8µğÖ¶í.

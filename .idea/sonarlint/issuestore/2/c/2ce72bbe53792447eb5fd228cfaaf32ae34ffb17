@@ -1,0 +1,14 @@
+
+H
+java:S1168-"+Return an empty collection instead of null.(¥¹ï8†öÆ³í.
+Y
+java:S1854"<Remove this useless assignment to local variable "userlist".(óá‡8§Ô´í.
+L
+java:S3740"/Provide the parametrized type for this generic.(óá‡8™˜Æ´í.
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÌŠæ®ÿÿÿÿÿ
+L
+java:S3740"/Provide the parametrized type for this generic.(ØÜï8†öÆ³í.
+L
+java:S3740"/Provide the parametrized type for this generic.(óá‡8™˜Æ´í.
+L
+java:S3740+"/Provide the parametrized type for this generic.(¥¾òš8†öÆ³í.
