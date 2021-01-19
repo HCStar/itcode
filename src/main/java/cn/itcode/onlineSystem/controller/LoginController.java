@@ -4,7 +4,6 @@ import cn.itcode.onlineSystem.constans.CommonConstant;
 import cn.itcode.onlineSystem.entity.User;
 import cn.itcode.onlineSystem.service.UserService;
 import cn.itcode.onlineSystem.util.ResponseUtil;
-import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -40,21 +42,19 @@ public class LoginController implements CommonConstant {
     //注册提交数据功能
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String register(Model model, User user){
-        JSONObject msg = new JSONObject();
         try {
             Map<String, Object> map = userService.register(user);
             if(map == null || map.isEmpty()){
-                model.addAttribute("msg", "请到您的邮箱进行激活");
-                msg.put("msg", "请到您的邮箱进行激活");
-                return msg.toJSONString();
+                model.addAttribute("msg","您的账户尚未激活");
+                return ResponseUtil.error("您的账户尚未激活").toString();
             }
             //注册失败，跳转到原来的页面
             else {
                 //失败了传失败信息，跳到到原来的页面
-                model.addAttribute("usernameMsg", map.get("usernameMsg"));
-                model.addAttribute("passwordMsg", map.get("passwordMsg"));
-                model.addAttribute("emailMsg", map.get("emailMsg"));
-                return msg.toJSONString();
+//                model.addAttribute("usernameMsg", map.get("usernameMsg"));
+//                model.addAttribute("passwordMsg", map.get("passwordMsg"));
+//                model.addAttribute("emailMsg", map.get("emailMsg"));
+                return ResponseUtil.error(map.get("errMsg").toString()).toString();
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -63,25 +63,25 @@ public class LoginController implements CommonConstant {
     }
 
     //激活页面
-    @RequestMapping(path = "/activation/{userId}/{code}", method = RequestMethod.POST)
-    public String activation(Model model, @PathVariable("userId") int userId, @PathVariable("code") String code){
-        int result = userService.activation(userId, code);
-        if(result == ACTIVATION_SUCCESS){
-            //激活成功，跳到登录页面
-            model.addAttribute("msg","账号激活成功");
-            //跳到登录页面
-            model.addAttribute("target", "/login");
-        }else if(result == ACTIVATION_REPEAT){
-            model.addAttribute("msg", "该账户已经激活过了!");
-            //跳到登录页面
-            model.addAttribute("target", "/login");
-        }else {
-            model.addAttribute("msg", "激活失败！");
-            //跳到登录页面
-            model.addAttribute("target", "/register");
-        }
-        return null;
-    }
+//    @RequestMapping(path = "/activation/{userId}/{code}", method = RequestMethod.POST)
+//    public String activation(Model model, @PathVariable("userId") int userId, @PathVariable("code") String code){
+//        int result = userService.activation(userId, code);
+//        if(result == ACTIVATION_SUCCESS){
+//            //激活成功，跳到登录页面
+//            model.addAttribute("msg","账号激活成功");
+//            //跳到登录页面
+//            model.addAttribute("target", "/login");
+//        }else if(result == ACTIVATION_REPEAT){
+//            model.addAttribute("msg", "该账户已经激活过了!");
+//            //跳到登录页面
+//            model.addAttribute("target", "/login");
+//        }else {
+//            model.addAttribute("msg", "激活失败！");
+//            //跳到登录页面
+//            model.addAttribute("target", "/register");
+//        }
+//        return null;
+//    }
 
     //登录功能
     //传入的数据有用户名，密码，验证码，记住我，model，存在session的正确验证码,用于传给cookie的登录凭证
@@ -103,14 +103,11 @@ public class LoginController implements CommonConstant {
             //登录成功，重定向回到index页面
             return ResponseUtil.suc("登录成功").toString();
         }else {
-            model.addAttribute("usernameMsg",map.get("usernameMsg"));
-            model.addAttribute("passwordMsg", map.get("passwordMsg"));
+//            model.addAttribute("usernameMsg",map.get("usernameMsg"));
+//            model.addAttribute("passwordMsg", map.get("passwordMsg"));
             //回到登录页面
 //            return "site/login";
-            JSONObject msg = new JSONObject();
-            msg.put("usernameMsg", map.get("usernameMsg"));
-            msg.put("passwordMsg", map.get("passwordMsg"));
-            return ResponseUtil.error(msg).toString();
+          return ResponseUtil.error(map.get("errMsg").toString()).toString();
         }
     }
 

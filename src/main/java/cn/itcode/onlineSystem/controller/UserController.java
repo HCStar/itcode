@@ -4,15 +4,13 @@ import cn.itcode.onlineSystem.annotation.LoginRequired;
 import cn.itcode.onlineSystem.entity.User;
 import cn.itcode.onlineSystem.service.UserService;
 import cn.itcode.onlineSystem.util.HostHolder;
+import cn.itcode.onlineSystem.util.ResponseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -75,4 +73,19 @@ public class UserController {
         model.addAttribute("user", user);
         return user;
     }
+
+    //修改个人信息
+    @LoginRequired
+    @RequestMapping(path = "/update", method = RequestMethod.POST)
+    public String updateUser(@RequestBody User user){
+        String username = user.getUsername();
+        User user1 = userService.findUserByName(username);
+        if(user1 == null){
+            throw new RuntimeException("该用户不存在");
+        }
+        User updateUser = userService.updateUser(username);
+        return ResponseUtil.suc(updateUser).toString();
+    }
+
+    //
 }

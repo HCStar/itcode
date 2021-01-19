@@ -18,4 +18,7 @@ public class Account implements Serializable {
     private	String password;
     //账户金额
     private BigDecimal accountBalance;
+    //账户状态
+    private int status;
+    //
 }

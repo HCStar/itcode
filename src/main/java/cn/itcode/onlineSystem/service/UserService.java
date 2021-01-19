@@ -34,7 +34,7 @@ public interface UserService {
 
     public Map<String,Object> register(User user) throws IllegalAccessException;
 
-    public int activation(int userId,String code);
+//    public int activation(int userId,String code);
 
     public Map<String,Object> login(String username,String password,int expiredSeconds);
 
@@ -45,6 +45,8 @@ public interface UserService {
     public Map<String,Object> updatePassword(String password,String newPassword,int id);
 
     public User findUserByName(String username);
+
+    public User updateUser(String username);
 
     public Collection<? extends GrantedAuthority> getAuthorities(int userId);
 }

@@ -31,6 +31,8 @@ public interface UserMapper {
     User selectByID(int id);
     //根据名字查询用户
     User selectByName(String username);
+    //根据用户名更新用户
+    User updateUser(String username);
     //Email查询用户
     User selectByEmail(String email);
     //增加用户，返回插入行数

@@ -11,8 +11,6 @@ public class User implements Serializable {
     private int id;
     private String username;
     private String password;
-    private Integer age;
-    private String sex;
     //+salt
     private String salt;
     //用户邮件
@@ -22,11 +20,11 @@ public class User implements Serializable {
     //用户状态
     private int status;
     //激活码
-    private String activationCode;
+//    private String activationCode;
     //注册时间
     private Date createTime;
     //注销时间
-    private Date cancellTime;
+//    private Date cancellTime;
     //新密码
     private String newpwd;
     //确认密码

@@ -53,27 +53,24 @@ public class UserServiceImpl implements UserService {
             throw new IllegalAccessException("参数不能为空");
         }
         //输入表单的用户名，密码，邮箱是否为空，为空则有问题
-        if (Strings.isNullOrEmpty(user.getUsername())) {
-            map.put("usernameMsg", "账户不能为空");
+        if (Strings.isNullOrEmpty(user.getUsername()) || Strings.isNullOrEmpty(user.getPassword())) {
+            map.put("errMsg", "账户或密码不能为空");
             return map;
         }
-        if (Strings.isNullOrEmpty(user.getPassword())) {
-            map.put("passwordMsg", "密码不能为空");
-            return map;
-        }
+
         if (Strings.isNullOrEmpty(user.getEmail())) {
-            map.put("emailMsg", "邮箱不能为空");
+            map.put("errMsg", "邮箱不能为空");
             return map;
         }
         //判断用户或邮箱是否已存在
         User u = userMapper.selectByName(user.getUsername());
         if (u != null) {
-            map.put("usernameMsg", "该账号已存在");
+            map.put("errMsg", "该账号已存在");
             return map;
         }
         u = userMapper.selectByEmail(user.getEmail());
         if (u != null) {
-            map.put("emailMsg", "该邮箱已注册");
+            map.put("errMsg", "该邮箱已注册");
             return map;
         }
         //上述验证都通过，可以进行用户注册
@@ -83,8 +80,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(HelperUtil.md5(user.getPassword() + user.getSalt()));
         //刚开始用户都为普通用户 0
         user.setType(0);
-        //发送随机激活码
-        user.setActivationCode(HelperUtil.generateUID());
+//        //发送随机激活码
+//        user.setActivationCode(HelperUtil.generateUID());
         //用户创建时间
         user.setCreateTime(new Date());
         //用户添加到库中
@@ -94,22 +91,22 @@ public class UserServiceImpl implements UserService {
 
     //激活方法，包括判断了是否激活，重复激活，激活失败。并在为激活+激活码正确情况下激活用户
     //返回激活状态
-    @Override
-    public int activation(int userId, String code) {
-        User user = userMapper.selectByID(userId);
-        //用户已经激活过
-        if(user.getStatus() == 1){
-            return CommonConstant.ACTIVATION_REPEAT;
-
-        }
-        //如果激活码验证无误
-        else if(user.getActivationCode().equals(code)){
-            userMapper.updateStatus(userId, 1);
-            return CommonConstant.ACTIVATION_SUCCESS;
-        }else {
-            return CommonConstant.ACTIVATION_FAILURE;
-        }
-    }
+//    @Override
+//    public int activation(int userId, String code) {
+//        User user = userMapper.selectByID(userId);
+//        //用户已经激活过
+//        if(user.getStatus() == 1){
+//            return CommonConstant.ACTIVATION_REPEAT;
+//
+//        }
+//        //如果激活码验证无误
+//        else if(user.getActivationCode().equals(code)){
+//            userMapper.updateStatus(userId, 1);
+//            return CommonConstant.ACTIVATION_SUCCESS;
+//        }else {
+//            return CommonConstant.ACTIVATION_FAILURE;
+//        }
+//    }
 
     //由于登录的时候，失败的原因有多个：
     //因此设置map对象打包错误信息返回给controller给浏览器
@@ -118,29 +115,25 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> login(String username, String password, int expiredSeconds) {
         Map<String, Object> map = new HashMap<>();
         //用户名和密码判断
-        if(StringUtils.isBlank(username)){
-            map.put("usernameMsg", "账户为空");
-            return map;
-        }
-        if(StringUtils.isBlank(password)){
-            map.put("passwordMsg", "密码为空");
+        if(StringUtils.isBlank(username) || StringUtils.isBlank(password)){
+            map.put("errMsg", "账户或密码为空");
             return map;
         }
         //验证用户名是否存在
         User user = userMapper.selectByName(username);
         if(user == null){
-            map.put("usernameMsg", "账号不存在");
+            map.put("errMsg", "账号不存在");
             return map;
         }
         //验证账户是否激活
-        if(user.getStatus() == 0){
-            map.put("usernameMsg", "账号未激活");
-            return map;
-        }
+//        if(user.getStatus() == 0){
+//            map.put("usernameMsg", "账号未激活");
+//            return map;
+//        }
         //验证密码
         password = HelperUtil.md5(password + user.getSalt());
         if(!user.getPassword().equals(password)){
-            map.put("passwordMsg", "输入的密码错误");
+            map.put("errMsg", "输入的密码错误");
             return map;
         }
         //生成登录凭证，表示在线.实际为生成了一行LoginTicket表数据
@@ -195,6 +188,11 @@ public class UserServiceImpl implements UserService {
     //通过用户名找user
     public User findUserByName(String username){
         return userMapper.selectByName(username);
+    }
+
+    @Override
+    public User updateUser(String username) {
+        return userMapper.updateUser(username);
     }
 
     //用于security查某个user的权限

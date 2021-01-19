@@ -5,11 +5,11 @@
 <mapper namespace="cn.itcode.onlineSystem.dao.UserMapper">
 
         <sql id="selectFields">
-            USER_ID, USERNAME, PASSWORD, AGE, SEX, SALT, EMAIL, USER_TYPE, USER_STATUS, ACTIVATION_CODE, CREATE_TIME, NEW_PASSWORD, CONFIRM_PASSWORD, CUST_ACCT, ADDRESS, TELEPHONE, SIGN_COUNT, CACEL_TIME, REAL_NAME
+            USER_ID, USERNAME, PASSWORD, SALT, EMAIL, USER_TYPE, USER_STATUS, CREATE_TIME, NEW_PASSWORD, CONFIRM_PASSWORD, CUST_ACCT, ADDRESS, TELEPHONE, SIGN_COUNT, CACEL_TIME, REAL_NAME
         </sql>
 
         <sql id="insertFields">
-            USER_ID, USERNAME, PASSWORD, AGE, SEX, SALT, EMAIL, USER_TYPE, USER_STATUS, ACTIVATION_CODE, CREATE_TIME, NEW_PASSWORD, CONFIRM_PASSWORD, CUST_ACCT, ADDRESS, TELEPHONE, SIGN_COUNT, CACEL_TIME, REAL_NAME
+            USER_ID, USERNAME, PASSWORD, AGE, SEX, SALT, EMAIL, USER_TYPE, USER_STATUS, CREATE_TIME, ADDRESS, TELEPHONE, REAL_NAME
         </sql>
 
         <select id="selectByID" resultType="User">
@@ -32,7 +32,7 @@
 
         <insert id="insertUser" parameterType="User" keyProperty="id">
             insert into user(<include refid="insertFields"></include>)
-            value(#{username},#{password},#{salt},#{email},#{type},#{status},#{activationCode},#{headerUrl},#{createTime})
+            value(#{username},#{password},#{salt},#{email},#{type},#{status},#{createTime},#{address},#{telephone},#{realName})
         </insert>
         <update id="updateStatus">
             update user set USER_STATUS = #{status} where USER_ID = #{id}
