@@ -1,7 +1,6 @@
 package cn.itcode.onlineSystem.service;
 
 import cn.itcode.onlineSystem.entity.PersonPojo;
-import cn.itcode.onlineSystem.entity.StatusPojo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public interface PersonService {
     public boolean modifyPersoninfo(PersonPojo personinfo);
 
     //管理员根据账户状态查询用户信息
-    public List searchPersoninfo(StatusPojo status);
+//    public List searchPersoninfo(StatusPojo status);
 
     //管理员根据用户真实名字查询用户信息
     public List searchPersoninfo(PersonPojo personinfo);

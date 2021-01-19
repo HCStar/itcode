@@ -4,10 +4,13 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 用户实体类
+ */
 @Data
 public class PersonPojo implements Serializable {
     private Integer id;
-    private AccountPojo account;
+    private Account account;
     private String realname;
     private Integer age;
     private String sex;

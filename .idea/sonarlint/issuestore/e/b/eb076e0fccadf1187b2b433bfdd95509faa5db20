@@ -1,8 +1,8 @@
 
-v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ñ¸¿8ÏçÒµí.
-Q
-java:S3740"/Provide the parametrized type for this generic.(øâñøüÿÿÿÿ8ÏçÒµí.
-L
-java:S3740"/Provide the parametrized type for this generic.(¹ÅëÈ8ÏçÒµí.
-L
-java:S3740"/Provide the parametrized type for this generic.(ÙÑªà8ÏçÒµí.
+O
+java:S3740"/Provide the parametrized type for this generic.(øâñøüÿÿÿÿ8æ’–«ï.
+J
+java:S3740"/Provide the parametrized type for this generic.(ÙÑªà8æ’–«ï.
+J
+java:S3740"/Provide the parametrized type for this generic.(¹ÅëÈ8æ’–«ï.
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ñ¸¿8æ’–«ï.
