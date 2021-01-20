@@ -2,34 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="66a1707d-d861-4607-bbba-0bc0f0579bae" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/f/8febd75efe357d1a089fa41d6b0906fd65f24949" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/7/c7775fd7736d53dd3d1c8fea607f53a5f1c380b8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/8/c880fda960b2fa084877ae4c1de3b6323e6658b0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/c/cc0f73a5923d82efdc8a6fbf053a2ab05430808f" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/8/e88f37e3c21148143100a6c8adf4619e06cbc1b4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/constans/CommonConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/constans/CommonConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/controller/interceptor/LoginTicketInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/controller/interceptor/LoginTicketInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/dao/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/dao/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/entity/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/userMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/userMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/constans/CommonConstant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/constans/CommonConstant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/controller/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/controller/interceptor/LoginTicketInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/controller/interceptor/LoginTicketInterceptor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/dao/UserMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/dao/UserMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/entity/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/entity/Account.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/entity/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/service/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/service/impl/UserServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/service/impl/UserServiceImpl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcode/onlineSystem/service/impl/UserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/userMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/userMapper.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -66,8 +39,8 @@
       <file leaf-file-name="UserController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/controller/UserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="111" column="18" lean-forward="true" selection-start-line="111" selection-start-column="18" selection-end-line="111" selection-end-column="18" />
+            <state relative-caret-position="304">
+              <caret line="128" column="44" selection-start-line="128" selection-start-column="44" selection-end-line="128" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -559,12 +532,12 @@
       <workItem from="1609896202776" duration="13365000" />
       <workItem from="1610430547362" duration="21934000" />
       <workItem from="1610531589426" duration="3058000" />
-      <workItem from="1610676382217" duration="70847000" />
+      <workItem from="1610676382217" duration="71395000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="113642000" />
+    <option name="totallyTimeSpent" value="114190000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="18" y="49" width="1409" height="792" extended-state="0" />
@@ -587,11 +560,11 @@
       <window_info id="Image Layers" order="2" />
       <window_info anchor="bottom" id="Java Enterprise" order="7" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32886904" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.0" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.122023806" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.19791667" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.16369048" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.5229167" visible="true" weight="0.23809524" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.14136904" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5229167" visible="true" weight="0.23809524" />
       <window_info anchor="right" id="Bean Validation" order="3" />
       <window_info id="Web" order="2" side_tool="true" />
       <window_info anchor="bottom" id="SonarLint" order="7" weight="0.32886904" />
@@ -1108,8 +1081,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cn/itcode/onlineSystem/controller/UserController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="111" column="18" lean-forward="true" selection-start-line="111" selection-start-column="18" selection-end-line="111" selection-end-column="18" />
+        <state relative-caret-position="304">
+          <caret line="128" column="44" selection-start-line="128" selection-start-column="44" selection-end-line="128" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

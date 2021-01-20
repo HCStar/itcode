@@ -89,7 +89,7 @@ public class UserController {
 
     //开启用户
     @LoginRequired
-    @RequestMapping(path = "", method = RequestMethod.POST)
+    @RequestMapping(path = "/enable", method = RequestMethod.POST)
     public String activaAccount(String accountNum){
         String msg = userService.enabled(accountNum);
         return ResponseUtil.suc(msg).toString();
@@ -97,7 +97,7 @@ public class UserController {
 
     //冻结账户
     @LoginRequired
-    @RequestMapping(path = "", method = RequestMethod.POST)
+    @RequestMapping(path = "/lock", method = RequestMethod.POST)
     public String lockAccount(String accountNum){
         JSONObject resultMsg = new JSONObject();
         if(Strings.isNullOrEmpty(accountNum)){
@@ -110,7 +110,7 @@ public class UserController {
 
     //删除账户
     @LoginRequired
-    @RequestMapping(path = "", method = RequestMethod.POST)
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
     public String delAccount(String accountNum){
         JSONObject resultMsg = new JSONObject();
         if(Strings.isNullOrEmpty(accountNum)){
@@ -123,7 +123,7 @@ public class UserController {
 
     //开户
     @LoginRequired
-    @RequestMapping(path = "/", method = RequestMethod.POST)
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
     public String addAcount(Account account){
         String msg = userService.addAccount(account);
         return ResponseUtil.suc(msg).toString();
