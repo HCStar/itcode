@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -40,16 +37,16 @@ public class LoginController implements CommonConstant {
 
     //注册提交数据功能
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public String register(User user){
+    public ResponseUtil register(@RequestBody User user){
         try {
             Map<String, Object> map = userService.register(user);
             if(map == null || map.isEmpty()){
-                return ResponseUtil.error("您的账户尚未激活").toString();
+                return ResponseUtil.error("您的账户尚未激活");
             }
             //注册失败，跳转到原来的页面
             else {
                 //失败了传失败信息，跳到到原来的页面
-                return ResponseUtil.error(map.get("errMsg").toString()).toString();
+                return ResponseUtil.error(map.get("errMsg").toString());
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -60,7 +57,7 @@ public class LoginController implements CommonConstant {
     //登录功能
     //传入的数据有用户名，密码，验证码，记住我，model，存在session的正确验证码,用于传给cookie的登录凭证
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login(String username, String password, boolean remeberMe, HttpServletResponse response){
+    public ResponseUtil login(String username, String password, boolean remeberMe, HttpServletResponse response){
         //检查账号、密码
         //获取过期时间
         int expiredSeconds = remeberMe ? REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;
@@ -75,19 +72,19 @@ public class LoginController implements CommonConstant {
             cookie.setPath(contextPath);
             response.addCookie(cookie);
             //登录成功，重定向回到index页面
-            return ResponseUtil.suc("登录成功").toString();
+            return ResponseUtil.suc("登录成功");
         }else {
-            return ResponseUtil.error(map.get("errMsg").toString()).toString();
+            return ResponseUtil.error(map.get("errMsg").toString());
         }
     }
 
     //退出登录
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
-    public String logout(@CookieValue("ticket") String ticket){
+    public ResponseUtil logout(@CookieValue("ticket") String ticket){
         //得到浏览器的cookie
         userService.logout(ticket);
         SecurityContextHolder.clearContext();
         //重定向到登录页面
-        return ResponseUtil.suc("您已退出").toString();
+        return ResponseUtil.suc("您已退出");
     }
 }

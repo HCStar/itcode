@@ -27,8 +27,6 @@ l
 <src/main/java/cn/itcode/onlineSystem/entity/LoginTicket.java,b/7/b704b1cafecb7c1b5a734844e1803edbcddd6473
 r
 Bsrc/main/java/cn/itcode/onlineSystem/annotation/LoginRequired.java,e/6/e602c42d0e47e9e79fc2704638f5a1ee179fde58
-i
-9src/main/java/cn/itcode/onlineSystem/util/HostHolder.java,d/b/db7526e0772c00c3023ffc52b4b22387312d1f5a
 k
 ;src/main/java/cn/itcode/onlineSystem/util/RedisKeyUtil.java,1/6/1607036435e0c3f31f5e487d0e1e943efa923e6e
 e
