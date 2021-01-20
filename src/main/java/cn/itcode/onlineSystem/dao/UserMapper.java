@@ -1,31 +1,11 @@
 package cn.itcode.onlineSystem.dao;
 
+import cn.itcode.onlineSystem.entity.Account;
 import cn.itcode.onlineSystem.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper {
-//    //获取账户对象
-//    public AccountPojo getAccount(String username);
-//    //获取账户对象
-//    public AccountPojo getAccount(int accountid);
-//    //修改账户
-//    public boolean updateAccount(AccountPojo account);
-//    //从session中重新获取对象account
-//    public void reflush(AccountPojo account);
-//
-//    //根据username获取管理员对象
-//    public AdminPojo getAdmin(String username);
-//
-//    //根据账户状态名称获取账户状态对象
-//    public StatusPojo getStatus(String name);
-//    //根据账户状态id获取账户状态对象
-//    public StatusPojo getStatus(int id);
-//
-//    //管理员删除账户
-//    public boolean delAccount(AccountPojo account);
-//    //开户
-//    public boolean addAccount(AccountPojo account);
 
     //根据ID查询用户
     User selectByID(int id);
@@ -43,4 +23,19 @@ public interface UserMapper {
     int updatePassword(int id,String password);
     //获取用户类型
     int getRole(String username, String password);
+
+    //根据账号获取账户对象
+    Account getAccount(String accountNum);
+    //修改账户
+    boolean updateAccount(Account account);
+
+    //根据账户状态名称获取账户状态对象
+    int getStatus(String name);
+    //根据账户状态id获取账户状态对象
+    int getStatus(int id);
+
+    //管理员删除账户
+    boolean delAccount(Account account);
+    //开户
+    boolean addAccount(Account account);
 }

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Data
 public class Account implements Serializable {
     //账户账号
-    private Integer accountNum;
+    private String accountNum;
     //用户名
     private String username;
     //密码

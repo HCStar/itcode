@@ -1,15 +1,17 @@
 package cn.itcode.onlineSystem.controller;
 
 import cn.itcode.onlineSystem.annotation.LoginRequired;
+import cn.itcode.onlineSystem.entity.Account;
 import cn.itcode.onlineSystem.entity.User;
 import cn.itcode.onlineSystem.service.UserService;
 import cn.itcode.onlineSystem.util.HostHolder;
 import cn.itcode.onlineSystem.util.ResponseUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -35,50 +37,48 @@ public class UserController {
     //个人设置页面修改密码功能
     @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.POST)
-    public String updatePassword(Model model, String password, String newPassword, String confirmPassword){
+    public String updatePassword(String password, String newPassword, String confirmPassword){
+        JSONObject resultMsg = new JSONObject();
         if(StringUtils.isBlank(password)){
-            model.addAttribute("passwordMsg", "请输入密码");
-            return "/site/setting";
+            resultMsg.put("msg", "请输入密码");
+            return resultMsg.toJSONString();
         }
         if(StringUtils.isBlank(newPassword)){
-            model.addAttribute("passwordMsg", "请输入新密码");
-            return "/site/setting";
+            resultMsg.put("msg", "请输入新密码");
+            return resultMsg.toJSONString();
         }
         if(StringUtils.isBlank(confirmPassword)){
-            model.addAttribute("passwordMsg", "请输入确认密码");
-            return "/site/setting";
+            resultMsg.put("msg", "请输入确认密码");
+            return resultMsg.toJSONString();
         }
         User user = hostHolder.getUser();
-        Map<String, Object> map = userService.updatePassword(password, newPassword, user.getId());
+        Map<String, Object> map = userService.updatePassword(password, newPassword, user.getUSER_ID());
         if(map == null || map.isEmpty()){
             //传给templates改密码成功
-            model.addAttribute("msg", "密码修改成功");
-            //跳到个人设置页面
-            model.addAttribute("target", "user/setting");
-            return "/site/operate-result";
+            resultMsg.put("msg", "密码修改成功");
+            return resultMsg.toJSONString();
         }else {
             //修改密码失败，跳到原来的设置页面
-            model.addAttribute("passwordMsg","输入的原始密码错误");
-            return "/site/setting";
+            resultMsg.put("msg", "修改密码失败");
+            return ResponseUtil.suc(resultMsg.toJSONString()).toString();
         }
     }
 
     //个人信息主页
     @RequestMapping(path = "profile/{userId}", method = RequestMethod.POST)
-    public User getProfilePage(@PathVariable("userId") int userId, Model model){
+    public String getProfilePage(@PathVariable("userId") int userId){
         User user = userService.findUserById(userId);
         if(user == null){
             throw new RuntimeException("该用户不存在");
         }
-        model.addAttribute("user", user);
-        return user;
+        return ResponseUtil.suc(user).toString();
     }
 
     //修改个人信息
     @LoginRequired
     @RequestMapping(path = "/update", method = RequestMethod.POST)
     public String updateUser(@RequestBody User user){
-        String username = user.getUsername();
+        String username = user.getUSERNAME();
         User user1 = userService.findUserByName(username);
         if(user1 == null){
             throw new RuntimeException("该用户不存在");
@@ -87,5 +87,45 @@ public class UserController {
         return ResponseUtil.suc(updateUser).toString();
     }
 
-    //
+    //开启用户
+    @LoginRequired
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public String activaAccount(String accountNum){
+        String msg = userService.enabled(accountNum);
+        return ResponseUtil.suc(msg).toString();
+    }
+
+    //冻结账户
+    @LoginRequired
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public String lockAccount(String accountNum){
+        JSONObject resultMsg = new JSONObject();
+        if(Strings.isNullOrEmpty(accountNum)){
+            resultMsg.put("msg", "请输入账号");
+        }
+        String s = userService.locking(accountNum);
+        resultMsg.put("msg", s);
+        return ResponseUtil.suc(resultMsg.toJSONString()).toString();
+    }
+
+    //删除账户
+    @LoginRequired
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public String delAccount(String accountNum){
+        JSONObject resultMsg = new JSONObject();
+        if(Strings.isNullOrEmpty(accountNum)){
+            resultMsg.put("msg", "请输入账号");
+        }
+        String s = userService.delAccount(accountNum);
+        resultMsg.put("msg", s);
+        return ResponseUtil.suc(resultMsg.toJSONString()).toString();
+    }
+
+    //开户
+    @LoginRequired
+    @RequestMapping(path = "/", method = RequestMethod.POST)
+    public String addAcount(Account account){
+        String msg = userService.addAccount(account);
+        return ResponseUtil.suc(msg).toString();
+    }
 }

@@ -1,5 +1,6 @@
 package cn.itcode.onlineSystem.service;
 
+import cn.itcode.onlineSystem.entity.Account;
 import cn.itcode.onlineSystem.entity.LoginTicket;
 import cn.itcode.onlineSystem.entity.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,24 +11,19 @@ import java.util.Map;
 
 @Service
 public interface UserService {
-//    //获取账户对象
-//    public AccountPojo getAccount(String username);
-//    //获取账户对象
-//    public AccountPojo getAccount(int accountid);
-//    //修改账户
-//    public Boolean modifyAccount(AccountPojo account);
+    //获取账户对象
+    public Account getAccount(String accountid);
+    //修改账户
+    public Boolean modifyAccount(Account account);
 
-//    //根据username获取管理员对象
-//    public AdminPojo getAdmin(String username);
-//
-//    //启用账户
-//    public void enabled(int id);
-//    //冻结账户
-//    public void locking(int id);
-//    //删除账户
-//    public boolean delAccount(int id);
-//    //管理员开户
-//    public boolean addAccount(AccountPojo account);
+    //启用账户
+    public String enabled(String id);
+    //冻结账户
+    public String locking(String id);
+    //删除账户
+    public String delAccount(String id);
+    //管理员开户
+    public String addAccount(Account account);
 
     //根据id查找用户
     public User findUserById(int id);

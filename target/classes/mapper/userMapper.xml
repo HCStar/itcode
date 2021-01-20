@@ -9,16 +9,16 @@
         </sql>
 
         <sql id="insertFields">
-            USER_ID, USERNAME, PASSWORD, AGE, SEX, SALT, EMAIL, USER_TYPE, USER_STATUS, CREATE_TIME, ADDRESS, TELEPHONE, REAL_NAME
+            USER_ID, USERNAME, PASSWORD, EMAIL, USER_TYPE, USER_STATUS, CREATE_TIME, ADDRESS, TELEPHONE, REAL_NAME
         </sql>
 
         <select id="selectByID" resultType="User">
             select <include refid="selectFields"></include>
-            from user
+            from user1
             where USER_ID=#{id}
         </select>
 
-        <select id="selectByName" resultType="User">
+        <select id="selectByName" resultType="cn.itcode.onlineSystem.entity.User">
             select <include refid="selectFields"></include>
             from user
             where USERNAME=#{username}
@@ -27,7 +27,7 @@
         <select id="selectByEmail" resultType="User">
             select <include refid="selectFields"></include>
             from user
-            where EMAIL=#{Email}
+            where EMAIL=#{email}
         </select>
 
         <insert id="insertUser" parameterType="User" keyProperty="id">
@@ -40,6 +40,21 @@
 
         <update id="updatePassword">
             update user set PASSWORD = #{password} where USER_ID = #{id}
+        </update>
+
+        <update id="updateUser">
+            update user <set>
+              <if test="_parameter !=null">
+                  EMAIL=#{EMAIL, jdbcType=VARCHAR}
+              </if>
+              <if test="_parameter !=null">
+                  ADDRESS=#{ADDRESS, jdbcType=VARCHAR}
+              </if>
+              <if test="_parameter !=null">
+                  TELEPHONE=#{TELEPHONE, jdbcType=VARCHAR}
+              </if>
+            </set>
+            where USERNAME=#{USERNAME}
         </update>
 
 </mapper>

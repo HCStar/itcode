@@ -2,6 +2,7 @@ package cn.itcode.onlineSystem.service.impl;
 
 import cn.itcode.onlineSystem.constans.CommonConstant;
 import cn.itcode.onlineSystem.dao.UserMapper;
+import cn.itcode.onlineSystem.entity.Account;
 import cn.itcode.onlineSystem.entity.LoginTicket;
 import cn.itcode.onlineSystem.entity.User;
 import cn.itcode.onlineSystem.service.UserService;
@@ -28,8 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper userMapper;
-//    @Autowired
-//    TemplateEngine templateEngine;
+
     @Autowired
     RedisTemplate redisTemplate;
 
@@ -53,63 +53,41 @@ public class UserServiceImpl implements UserService {
             throw new IllegalAccessException("参数不能为空");
         }
         //输入表单的用户名，密码，邮箱是否为空，为空则有问题
-        if (Strings.isNullOrEmpty(user.getUsername()) || Strings.isNullOrEmpty(user.getPassword())) {
+        if (Strings.isNullOrEmpty(user.getUSERNAME()) || Strings.isNullOrEmpty(user.getPASSWORD())) {
             map.put("errMsg", "账户或密码不能为空");
             return map;
         }
 
-        if (Strings.isNullOrEmpty(user.getEmail())) {
+        if (Strings.isNullOrEmpty(user.getEMAIL())) {
             map.put("errMsg", "邮箱不能为空");
             return map;
         }
         //判断用户或邮箱是否已存在
-        User u = userMapper.selectByName(user.getUsername());
+        User u = userMapper.selectByName(user.getUSERNAME());
         if (u != null) {
             map.put("errMsg", "该账号已存在");
             return map;
         }
-        u = userMapper.selectByEmail(user.getEmail());
+        u = userMapper.selectByEmail(user.getEMAIL());
         if (u != null) {
             map.put("errMsg", "该邮箱已注册");
             return map;
         }
         //上述验证都通过，可以进行用户注册
         //生成六位的随机salt
-        user.setSalt(HelperUtil.generateUID().substring(0, 6));
+        user.setSALT(HelperUtil.generateUID().substring(0, 6));
         //对密码+salt
-        user.setPassword(HelperUtil.md5(user.getPassword() + user.getSalt()));
+        user.setPASSWORD(HelperUtil.md5(user.getPASSWORD() + user.getSALT()));
         //刚开始用户都为普通用户 0
-        user.setType(0);
-//        //发送随机激活码
-//        user.setActivationCode(HelperUtil.generateUID());
+        user.setUSER_TYPE(0);
         //用户创建时间
-        user.setCreateTime(new Date());
+        user.setCREATE_TIME(new Date());
         //用户添加到库中
         userMapper.insertUser(user);
         return map;
     }
 
-    //激活方法，包括判断了是否激活，重复激活，激活失败。并在为激活+激活码正确情况下激活用户
-    //返回激活状态
-//    @Override
-//    public int activation(int userId, String code) {
-//        User user = userMapper.selectByID(userId);
-//        //用户已经激活过
-//        if(user.getStatus() == 1){
-//            return CommonConstant.ACTIVATION_REPEAT;
-//
-//        }
-//        //如果激活码验证无误
-//        else if(user.getActivationCode().equals(code)){
-//            userMapper.updateStatus(userId, 1);
-//            return CommonConstant.ACTIVATION_SUCCESS;
-//        }else {
-//            return CommonConstant.ACTIVATION_FAILURE;
-//        }
-//    }
 
-    //由于登录的时候，失败的原因有多个：
-    //因此设置map对象打包错误信息返回给controller给浏览器
     //返回类型map带错误信息，形参为用户名，密码和登录凭证还有几秒过期
     @Override
     public Map<String, Object> login(String username, String password, int expiredSeconds) {
@@ -125,20 +103,15 @@ public class UserServiceImpl implements UserService {
             map.put("errMsg", "账号不存在");
             return map;
         }
-        //验证账户是否激活
-//        if(user.getStatus() == 0){
-//            map.put("usernameMsg", "账号未激活");
-//            return map;
-//        }
         //验证密码
-        password = HelperUtil.md5(password + user.getSalt());
-        if(!user.getPassword().equals(password)){
+        password = HelperUtil.md5(password + user.getSALT());
+        if(!user.getPASSWORD().equals(password)){
             map.put("errMsg", "输入的密码错误");
             return map;
         }
         //生成登录凭证，表示在线.实际为生成了一行LoginTicket表数据
         LoginTicket loginTicket = new LoginTicket();
-        loginTicket.setUserId(user.getId());
+        loginTicket.setUserId(user.getUSER_ID());
         loginTicket.setTicket(HelperUtil.generateUID());
         loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds*1000));
         String redisKey = RedisKeyUtil.getTicketKey(loginTicket.getTicket());
@@ -172,13 +145,13 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> updatePassword(String password, String newPassword, int id) {
         Map<String, Object> map = new HashMap<>();
         User user = userMapper.selectByID(id);
-        password = HelperUtil.md5(password + user.getSalt());
-        if(!user.getPassword().equals(password)){
+        password = HelperUtil.md5(password + user.getSALT());
+        if(!user.getPASSWORD().equals(password)){
            map.put("passwordMsg", "输入的密码错误");
            return map;
         }else {
-            newPassword = HelperUtil.md5(newPassword + user.getSalt());
-            clearCache(user.getId());
+            newPassword = HelperUtil.md5(newPassword + user.getSALT());
+            clearCache(user.getUSER_ID());
             userMapper.updatePassword(id, newPassword);
         }
         return map;
@@ -202,7 +175,7 @@ public class UserServiceImpl implements UserService {
         list.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                switch (user.getType()){
+                switch (user.getUSER_TYPE()){
                     case 1:
                         return CommonConstant.AUTHORITY_ADMIN;
                     default:
@@ -233,64 +206,72 @@ public class UserServiceImpl implements UserService {
         redisTemplate.delete(redisKey);
     }
 
-//    //根据账户id获取账户对象
-//    @Override
-//    public AccountPojo getAccount(int accountid) {
-//        return null;
-//    }
-//
-//    //修改账户信息
-//    @Override
-//    public Boolean modifyAccount(AccountPojo account) {
-//        return userMapper.updateAccount(account);
-//    }
-//
-//    //从session中重新获取对象account
-//    @Override
-//    public void reflush(AccountPojo account) {
-//        userMapper.reflush(account);
-//    }
-//
-//    //获取管理员对象
-//    @Override
-//    public AdminPojo getAdmin(String username) {
-//        return userMapper.getAdmin(username);
-//    }
-//
-//    //启用账户
-//    @Override
-//    public void enabled(int id) {
-//        AccountPojo accountPojo = userMapper.getAccount(id);
-//        //获取并修改账户对象的状态属性，设置为启用
-//        StatusPojo status = userMapper.getStatus("启用");
-//        accountPojo.setStatus(status);
-//        userMapper.updateAccount(accountPojo);
-//    }
-//
-//    //冻结账户
-//    @Override
-//    public void locking(int id) {
-//        AccountPojo account = userMapper.getAccount(id);
-//        //获取并修改账户对象的状态属性，设置为启用
-//        StatusPojo status = userMapper.getStatus("启用");
-//        account.setStatus(status);
-//        userMapper.updateAccount(account);
-//    }
-//
-//    //管理员删除账户
-//    @Override
-//    public boolean delAccount(int id) {
-//        AccountPojo account = userMapper.getAccount(id);
-//        userMapper.delAccount(account);
-//        return false;
-//    }
-//
-//    //管理员开户
-//    @Override
-//    public boolean addAccount(AccountPojo account) {
-//        StatusPojo status = userMapper.getStatus("启用");
-//        account.setStatus(status);
-//        return userMapper.addAccount(account);
-//    }
-    
+
+    //根据账户id获取账户对象
+    @Override
+    public Account getAccount(String accountid) {
+        return userMapper.getAccount(accountid);
+    }
+
+    //修改账户信息
+    @Override
+    public Boolean modifyAccount(Account account) {
+        return userMapper.updateAccount(account);
+    }
+
+    //启用账户
+    @Override
+    public String enabled(String accountid) {
+        Map map = new HashMap();
+        Account account = userMapper.getAccount(accountid);
+        boolean b = userMapper.updateAccount(account);
+        if(b == true){
+            account.setStatus(CommonConstant.ACTIVATION_SUCCESS);
+            map.put("msg", "账户已启用");
+        }
+        else {
+            account.setStatus(CommonConstant.ACTIVATION_FAILURE);
+            map.put("msg", "账户启用失败,请重试");
+        }
+        return map.toString();
+    }
+
+    //冻结账户
+    @Override
+    public String locking(String accountid) {
+        Map msg = new HashMap();
+        Account account = userMapper.getAccount(accountid);
+        //获取并修改账户对象的状态属性，设置为启用
+        account.setStatus(CommonConstant.ACTIVATION_REPEAT);
+        boolean b = userMapper.updateAccount(account);
+        if( b == true){
+            msg.put("msg", "账户已被冻结");
+        }
+        return msg.toString();
+    }
+
+    //管理员删除账户
+    @Override
+    public String delAccount(String accountid) {
+        Map map = new HashMap();
+        Account account = userMapper.getAccount(accountid);
+        account.setStatus(CommonConstant.ACTIVATION_FAILURE);
+        boolean b = userMapper.delAccount(account);
+        if (b == true){
+            map.put("msg", "删除账户成功");
+        }
+        return map.toString();
+    }
+
+    //管理员开户
+    @Override
+    public String addAccount(Account account) {
+        Map map = new HashMap();
+        boolean b = userMapper.addAccount(account);
+        account.setStatus(CommonConstant.ACTIVATION_SUCCESS);
+        if(b == true){
+            map.put("msg", "开户成功");
+        }
+        return map.toString();
+    }
 }
