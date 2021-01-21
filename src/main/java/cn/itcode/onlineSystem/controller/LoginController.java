@@ -41,7 +41,7 @@ public class LoginController implements CommonConstant {
         try {
             Map<String, Object> map = userService.register(user);
             if(map == null || map.isEmpty()){
-                return ResponseUtil.error("您的账户尚未激活");
+                return ResponseUtil.suc("注册成功，请到登录页面进行登录");
             }
             //注册失败，跳转到原来的页面
             else {
@@ -57,7 +57,7 @@ public class LoginController implements CommonConstant {
     //登录功能
     //传入的数据有用户名，密码，验证码，记住我，model，存在session的正确验证码,用于传给cookie的登录凭证
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public ResponseUtil login(String username, String password, boolean remeberMe, HttpServletResponse response){
+    public ResponseUtil login(@RequestParam String username, String password, boolean remeberMe, HttpServletResponse response){
         //检查账号、密码
         //获取过期时间
         int expiredSeconds = remeberMe ? REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;

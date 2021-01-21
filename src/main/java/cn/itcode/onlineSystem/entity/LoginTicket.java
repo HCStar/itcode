@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 public class LoginTicket implements Serializable {
     private int id;
-    private int userId;
+    private String userId;
     //登陆门票
     private String ticket;
     //登陆状态

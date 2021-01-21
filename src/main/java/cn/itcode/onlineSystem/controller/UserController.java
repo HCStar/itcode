@@ -42,7 +42,7 @@ public class UserController {
             resultMsg.put("msg", "请输入确认密码");
         }
         User user = hostHolder.getUser();
-        Map<String, Object> map = userService.updatePassword(password, newPassword, user.getUSER_ID());
+        Map<String, Object> map = userService.updatePassword(password, newPassword, user.getUserId());
         if(map == null || map.isEmpty()){
             //传给templates改密码成功
             resultMsg.put("msg", "密码修改成功");
@@ -54,9 +54,10 @@ public class UserController {
     }
 
     //个人信息主页
-    @RequestMapping(path = "profile/{userId}", method = RequestMethod.POST)
-    public ResponseUtil getProfilePage(@PathVariable("userId") int userId){
-        User user = userService.findUserById(userId);
+    @LoginRequired
+    @RequestMapping(value = "/profile/{userId}", method = RequestMethod.POST)
+    public ResponseUtil getProfilePage(@PathVariable("userId") String userId){
+        User user = userService.selectByUserId(userId);
         if(user == null){
             throw new RuntimeException("该用户不存在");
         }
@@ -67,7 +68,7 @@ public class UserController {
     @LoginRequired
     @RequestMapping(path = "/update", method = RequestMethod.POST)
     public ResponseUtil updateUser(@RequestBody User user){
-        String username = user.getUSERNAME();
+        String username = user.getUserName();
         User user1 = userService.findUserByName(username);
         if(user1 == null){
             throw new RuntimeException("该用户不存在");

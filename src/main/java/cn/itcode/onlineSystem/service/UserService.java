@@ -26,7 +26,7 @@ public interface UserService {
     public String addAccount(Account account);
 
     //根据id查找用户
-    public User findUserById(int id);
+    public User findUserById(String id);
 
     public Map<String,Object> register(User user) throws IllegalAccessException;
 
@@ -38,11 +38,13 @@ public interface UserService {
 
     public LoginTicket findLoginTicket(String ticket);
 
-    public Map<String,Object> updatePassword(String password,String newPassword,int id);
+    public Map<String,Object> updatePassword(String password,String newPassword,String id);
 
     public User findUserByName(String username);
 
+    public User selectByUserId(String userId);
+
     public User updateUser(String username);
 
-    public Collection<? extends GrantedAuthority> getAuthorities(int userId);
+    public Collection<? extends GrantedAuthority> getAuthorities(String userId);
 }

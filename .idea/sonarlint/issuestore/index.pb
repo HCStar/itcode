@@ -23,11 +23,5 @@ j
 :src/main/java/cn/itcode/onlineSystem/dao/PersonMapper.java,e/b/eb076e0fccadf1187b2b433bfdd95509faa5db20
 i
 9src/main/java/cn/itcode/onlineSystem/util/HelperUtil.java,6/4/64a9d939a0b8c35571f08770c731e5ae8216b921
-l
-<src/main/java/cn/itcode/onlineSystem/entity/LoginTicket.java,b/7/b704b1cafecb7c1b5a734844e1803edbcddd6473
 r
 Bsrc/main/java/cn/itcode/onlineSystem/annotation/LoginRequired.java,e/6/e602c42d0e47e9e79fc2704638f5a1ee179fde58
-k
-;src/main/java/cn/itcode/onlineSystem/util/RedisKeyUtil.java,1/6/1607036435e0c3f31f5e487d0e1e943efa923e6e
-e
-5src/main/java/cn/itcode/onlineSystem/entity/User.java,5/e/5e9e1426995d3218048c7b292484283f11882168

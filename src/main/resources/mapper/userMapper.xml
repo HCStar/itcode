@@ -5,23 +5,23 @@
 <mapper namespace="cn.itcode.onlineSystem.dao.UserMapper">
 
         <sql id="selectFields">
-            USER_ID, USERNAME, PASSWORD, SALT, EMAIL, USER_TYPE, USER_STATUS, CREATE_TIME, NEW_PASSWORD, CONFIRM_PASSWORD, CUST_ACCT, ADDRESS, TELEPHONE, SIGN_COUNT, CACEL_TIME, REAL_NAME
+            USER_ID, USER_NAME, PASSWORD, SALT, EMAIL, USER_TYPE, USER_STATUS, CREATE_TIME, NEW_PASSWORD, CONFIRM_PASSWORD, CUST_ACCT, ADDRESS, TELE_NUM, REAL_NAME
         </sql>
 
         <sql id="insertFields">
-            USER_ID, USERNAME, PASSWORD, EMAIL, USER_TYPE, USER_STATUS, CREATE_TIME, ADDRESS, TELEPHONE, REAL_NAME
+            USER_ID, USER_NAME, PASSWORD, SALT, EMAIL, USER_TYPE, USER_STATUS, CREATE_TIME, ADDRESS, TELE_NUM, REAL_NAME
         </sql>
 
-        <select id="selectByID" resultType="User">
+        <select id="selectByID" resultType="cn.itcode.onlineSystem.entity.User">
             select <include refid="selectFields"></include>
-            from user1
-            where USER_ID=#{id}
+            from user
+            where USER_ID=#{userId}
         </select>
 
         <select id="selectByName" resultType="cn.itcode.onlineSystem.entity.User">
             select <include refid="selectFields"></include>
             from user
-            where USERNAME=#{username}
+            where USER_NAME=#{userName}
         </select>
 
         <select id="selectByEmail" resultType="User">
@@ -32,14 +32,14 @@
 
         <insert id="insertUser" parameterType="User" keyProperty="id">
             insert into user(<include refid="insertFields"></include>)
-            value(#{userId},#{username},#{password},#{salt},#{email},#{type},#{status},#{createTime},#{address},#{telephone},#{realName})
+            values(#{userId},#{userName},#{password},#{salt},#{email},#{userType},#{userStatus},#{createTime},#{address},#{teleNum},#{realName})
         </insert>
         <update id="updateStatus">
-            update user set USER_STATUS = #{status} where USER_ID = #{id}
+            update user set USERSTATUS = #{status} where USERID = #{id}
         </update>
 
         <update id="updatePassword">
-            update user set PASSWORD = #{password} where USER_ID = #{id}
+            update user set PASSWORD = #{password} where USERID = #{id}
         </update>
 
         <update id="updateUser">

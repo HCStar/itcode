@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     RedisTemplate redisTemplate;
 
     @Override
-    public User findUserById(int id) {
+    public User findUserById(String id) {
         User user = getCache(id);
         if (user==null){
             user =  initCache(id);
@@ -53,35 +53,35 @@ public class UserServiceImpl implements UserService {
             throw new IllegalAccessException("参数不能为空");
         }
         //输入表单的用户名，密码，邮箱是否为空，为空则有问题
-        if (Strings.isNullOrEmpty(user.getUSERNAME()) || Strings.isNullOrEmpty(user.getPASSWORD())) {
+        if (Strings.isNullOrEmpty(user.getUserName()) || Strings.isNullOrEmpty(user.getPassword())) {
             map.put("errMsg", "账户或密码不能为空");
             return map;
         }
 
-        if (Strings.isNullOrEmpty(user.getEMAIL())) {
+        if (Strings.isNullOrEmpty(user.getEmail())) {
             map.put("errMsg", "邮箱不能为空");
             return map;
         }
         //判断用户或邮箱是否已存在
-        User u = userMapper.selectByName(user.getUSERNAME());
+        User u = userMapper.selectByName(user.getUserName());
         if (u != null) {
             map.put("errMsg", "该账号已存在");
             return map;
         }
-        u = userMapper.selectByEmail(user.getEMAIL());
+        u = userMapper.selectByEmail(user.getEmail());
         if (u != null) {
             map.put("errMsg", "该邮箱已注册");
             return map;
         }
         //上述验证都通过，可以进行用户注册
         //生成六位的随机salt
-        user.setSALT(HelperUtil.generateUID().substring(0, 6));
+        user.setSalt(HelperUtil.generateUID().substring(0, 6));
         //对密码+salt
-        user.setPASSWORD(HelperUtil.md5(user.getPASSWORD() + user.getSALT()));
+        user.setPassword(HelperUtil.md5(user.getPassword() + user.getSalt()));
         //刚开始用户都为普通用户 0
-        user.setUSER_TYPE(0);
+        user.setUserType(0);
         //用户创建时间
-        user.setCREATE_TIME(new Date());
+        user.setCreateTime(new Date());
         //用户添加到库中
         userMapper.insertUser(user);
         return map;
@@ -104,14 +104,14 @@ public class UserServiceImpl implements UserService {
             return map;
         }
         //验证密码
-        password = HelperUtil.md5(password + user.getSALT());
-        if(!user.getPASSWORD().equals(password)){
+        password = HelperUtil.md5(password + user.getSalt());
+        if(!user.getPassword().equals(password)){
             map.put("errMsg", "输入的密码错误");
             return map;
         }
         //生成登录凭证，表示在线.实际为生成了一行LoginTicket表数据
         LoginTicket loginTicket = new LoginTicket();
-        loginTicket.setUserId(user.getUSER_ID());
+        loginTicket.setUserId(user.getUserId());
         loginTicket.setTicket(HelperUtil.generateUID());
         loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds*1000));
         String redisKey = RedisKeyUtil.getTicketKey(loginTicket.getTicket());
@@ -142,16 +142,16 @@ public class UserServiceImpl implements UserService {
 
     //个人设置更改密码功能
     @Override
-    public Map<String, Object> updatePassword(String password, String newPassword, int id) {
+    public Map<String, Object> updatePassword(String password, String newPassword, String id) {
         Map<String, Object> map = new HashMap<>();
         User user = userMapper.selectByID(id);
-        password = HelperUtil.md5(password + user.getSALT());
-        if(!user.getPASSWORD().equals(password)){
+        password = HelperUtil.md5(password + user.getSalt());
+        if(!user.getPassword().equals(password)){
            map.put("passwordMsg", "输入的密码错误");
            return map;
         }else {
-            newPassword = HelperUtil.md5(newPassword + user.getSALT());
-            clearCache(user.getUSER_ID());
+            newPassword = HelperUtil.md5(newPassword + user.getSalt());
+            clearCache(user.getUserId());
             userMapper.updatePassword(id, newPassword);
         }
         return map;
@@ -163,19 +163,24 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectByName(username);
     }
 
+    //通过用id找user
+    public User selectByUserId(String userId){
+        return userMapper.selectByID(userId);
+    }
+
     @Override
     public User updateUser(String username) {
         return userMapper.updateUser(username);
     }
 
     //用于security查某个user的权限
-    public Collection<? extends GrantedAuthority> getAuthorities(int userId) {
+    public Collection<? extends GrantedAuthority> getAuthorities(String userId) {
         User user = this.findUserById(userId);
         List<GrantedAuthority> list = new ArrayList<>();
         list.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                switch (user.getUSER_TYPE()){
+                switch (user.getUserType()){
                     case 1:
                         return CommonConstant.AUTHORITY_ADMIN;
                     default:
@@ -188,12 +193,12 @@ public class UserServiceImpl implements UserService {
 
     //使用redis缓存User信息步骤
     //1.优先从缓存中取值
-    private User getCache(int userId){
+    private User getCache(String userId){
         String redisKey = RedisKeyUtil.getUserKey(userId);
         return (User) redisTemplate.opsForValue().get(redisKey);
     }
     //2.缓存中取不到，则在缓存中初始化数据
-    private User initCache(int userId){
+    private User initCache(String userId){
         User user = userMapper.selectByID(userId);
         String redisKey = RedisKeyUtil.getUserKey(userId);
         //缓存存在一小时
@@ -201,7 +206,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
     //3.数据变更时清除缓存数据
-    private void clearCache(int userId){
+    private void clearCache(String userId){
         String redisKey = RedisKeyUtil.getUserKey(userId);
         redisTemplate.delete(redisKey);
     }
