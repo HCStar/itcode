@@ -41,7 +41,7 @@ public interface UserService {
 
     public LoginTicket findLoginTicket(String ticket);
 
-    public Map<String,Object> updatePassword(String password,String newPassword,String id);
+    public Map<String,Object> updatePassword(String password, String newPassword, String userName);
 
     public User findUserByName(String userName);
 

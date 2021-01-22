@@ -3,6 +3,7 @@ package cn.itcode.onlineSystem.dao;
 import cn.itcode.onlineSystem.entity.Account;
 import cn.itcode.onlineSystem.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface UserMapper {
     //修改User状态Status
     int updateStatus(String userId,int userStatus);
     //更新密码
-    boolean updatePassword(String userId,String password);
+    boolean updatePassword(@Param("userName") String userName, @Param("password") String password);
     //获取用户类型
     int getRole(String username, String password);
 

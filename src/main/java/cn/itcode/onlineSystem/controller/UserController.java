@@ -6,7 +6,6 @@ import cn.itcode.onlineSystem.entity.User;
 import cn.itcode.onlineSystem.service.UserService;
 import cn.itcode.onlineSystem.util.HostHolder;
 import cn.itcode.onlineSystem.util.ResponseUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -31,25 +30,24 @@ public class UserController {
     //个人设置页面修改密码功能
     @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.POST)
-    public ResponseUtil updatePassword(@RequestParam String password, String newPassword, String confirmPassword){
-        JSONObject resultMsg = new JSONObject();
+    public ResponseUtil updatePassword(@RequestParam String password, String newPassword, String confirmPassword,String userName){
+//        JSONObject resultMsg = new JSONObject();
         if(StringUtils.isBlank(password)){
-            resultMsg.put("msg", "请输入密码");
+           return ResponseUtil.error("请输入密码");
         }
         if(StringUtils.isBlank(newPassword)){
-            resultMsg.put("msg", "请输入新密码");
+            return ResponseUtil.error("请输入新密码");
         }
         if(StringUtils.isBlank(confirmPassword)){
-            resultMsg.put("msg", "请输入确认密码");
+           return ResponseUtil.error("请输入确认密码");
         }
-        User user = hostHolder.getUser();
-        Map<String, Object> map = userService.updatePassword(password, newPassword, user.getUserId());
+
+        Map<String, Object> map = userService.updatePassword(password, newPassword, userName);
         if(map == null || map.isEmpty()){
-            resultMsg.put("msg", "密码修改成功");
+            return ResponseUtil.suc("密码修改成功");
         }else {
-            resultMsg.put("msg", "修改密码失败");
+            return ResponseUtil.error("修改密码失败");
         }
-        return ResponseUtil.suc(resultMsg.toJSONString());
     }
 
     //个人信息主页

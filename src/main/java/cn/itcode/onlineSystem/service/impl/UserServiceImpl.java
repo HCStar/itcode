@@ -142,9 +142,9 @@ public class UserServiceImpl implements UserService {
 
     //个人设置更改密码功能
     @Override
-    public Map<String, Object> updatePassword(String password, String newPassword, String id) {
+    public Map<String, Object> updatePassword(String password, String newPassword, String userName) {
         Map<String, Object> map = new HashMap<>();
-        User user = userMapper.selectByID(id);
+        User user = userMapper.selectByName(userName);
         password = HelperUtil.md5(password + user.getSalt());
         if(!user.getPassword().equals(password)){
            map.put("passwordMsg", "输入的密码错误");
@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
         }else {
             newPassword = HelperUtil.md5(newPassword + user.getSalt());
             clearCache(user.getUserId());
-            userMapper.updatePassword(id, newPassword);
+            userMapper.updatePassword(userName, newPassword);
         }
         return map;
     }
