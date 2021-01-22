@@ -69,6 +69,10 @@
             where CUST_NAME=#{custName}
         </select>
 
+        <select id="searchAll" resultType="Account">
+            select * from account;
+        </select>
+    
         <update id="updateAccount" >
             update account set ACCT_STATUS = #{acctStatus} where ACCT_ID = #{acctId}
         </update>

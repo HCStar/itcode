@@ -223,6 +223,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.findByCustName(custName);
     }
 
+    @Override
+    public List<Account> searchAll() {
+        return userMapper.searchAll();
+    }
+
     //启用账户
     @Override
     public Map enabled(String acctId) {

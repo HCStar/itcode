@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -14,6 +15,9 @@ public interface UserService {
     //获取账户对象
     public Account getAccount(String accountid);
     Account findByCustName(String custName);
+
+    //获取所有账户
+    List<Account> searchAll();
 
     //启用账户
     public Map enabled(String id);

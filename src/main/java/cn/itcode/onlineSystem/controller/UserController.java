@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -120,5 +121,13 @@ public class UserController {
            e.printStackTrace();
        }
        return null;
+    }
+
+    //查询所有账户
+    @LoginRequired
+    @RequestMapping(path = "/search", method = RequestMethod.POST)
+    public ResponseUtil searchAll(){
+        List<Account> accounts = userService.searchAll();
+        return ResponseUtil.suc(accounts);
     }
 }
