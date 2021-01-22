@@ -55,9 +55,9 @@ public class UserController {
 
     //个人信息主页
     @LoginRequired
-    @RequestMapping(value = "/profile/{userId}", method = RequestMethod.POST)
-    public ResponseUtil getProfilePage(@PathVariable("userId") String userId){
-        User user = userService.selectByUserId(userId);
+    @RequestMapping(value = "/profile/{username}", method = RequestMethod.POST)
+    public ResponseUtil getProfilePage(@PathVariable("username") String username){
+        User user = userService.findUserByName(username);
         if(user == null){
             throw new RuntimeException("该用户不存在");
         }
@@ -80,22 +80,20 @@ public class UserController {
     //开启用户
     @LoginRequired
     @RequestMapping(path = "/enable", method = RequestMethod.POST)
-    public ResponseUtil activaAccount(@RequestParam String accountNum){
-        String msg = userService.enabled(accountNum);
-        return ResponseUtil.suc(msg);
+    public ResponseUtil activaAccount(@RequestParam String acctId){
+        Map map = userService.enabled(acctId);
+        return ResponseUtil.suc(map.get("msg"));
     }
 
     //冻结账户
     @LoginRequired
     @RequestMapping(path = "/lock", method = RequestMethod.POST)
-    public ResponseUtil lockAccount(@RequestParam String accountNum){
-        JSONObject resultMsg = new JSONObject();
-        if(Strings.isNullOrEmpty(accountNum)){
-            resultMsg.put("msg", "请输入账号");
+    public ResponseUtil lockAccount(@RequestParam String acctId){
+        if(Strings.isNullOrEmpty(acctId)){
+            return ResponseUtil.error("请输入账号");
         }
-        String s = userService.locking(accountNum);
-        resultMsg.put("msg", s);
-        return ResponseUtil.suc(resultMsg.toJSONString());
+        Map map = userService.locking(acctId);
+        return ResponseUtil.suc(map.get("msg"));
     }
 
     //删除账户

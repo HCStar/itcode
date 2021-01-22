@@ -53,25 +53,25 @@
               <if test="_parameter !=null">
                   TELE_NUM=#{teleNum, jdbcType=VARCHAR}
               </if>
-
-            <!--<if test="EMAIL!=null and EMAIL!=''">-->
-                <!--EMAIL=#{email}-->
-            <!--</if>-->
-            <!--<if test="ADDRESS!=null and ADDRESS!=''">-->
-                <!--EMAIL=#{address}-->
-            <!--</if>-->
-            <!--<if test="TELE_NUM!=null and TELE_NUM!=''">-->
-                <!--TELE_NUM=#{teleNum}-->
-            <!--</if>-->
             </set>
             where USER_NAME=#{userName}
         </update>
 
 
+
         <select id="getAccount" resultType="Account">
             select * from account
-            where CUST_NUM=#{custNum}
+            where ACCT_ID=#{acctId}
         </select>
+
+         <select id="findByCustName" resultType="Account">
+            select * from account
+            where CUST_NAME=#{custName}
+        </select>
+
+        <update id="updateAccount">
+            update account set ACCT_STATUS = #{acctStatus} where ACCT_ID = #{acctId}
+        </update>
 
         <insert id="addAccount" parameterType="Account" keyProperty="id">
             insert into account(
@@ -93,8 +93,8 @@
             values(#{acctId}, #{custName}, #{password}, #{acctType}, #{custNum}, #{custAcct}, #{acctSqnum}, #{ccyCode}, #{acctAttr}, #{acctStatus}, #{unitCode}, #{lastUpdate}, #{acctBalc}, #{opactDate}, #{salt})
         </insert>
 
-
         <delete id="delAccount" parameterType="Account" >
             delete from account where ACCT_ID = #{acctId}
         </delete>
+
 </mapper>

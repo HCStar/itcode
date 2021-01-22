@@ -13,13 +13,12 @@ import java.util.Map;
 public interface UserService {
     //获取账户对象
     public Account getAccount(String accountid);
-    //修改账户
-    public Boolean modifyAccount(Account account);
+    Account findByCustName(String custName);
 
     //启用账户
-    public String enabled(String id);
+    public Map enabled(String id);
     //冻结账户
-    public String locking(String id);
+    public Map locking(String id);
     //删除账户
     public Map delAccount(String id);
     //管理员开户

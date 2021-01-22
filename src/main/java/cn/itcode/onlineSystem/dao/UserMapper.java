@@ -17,17 +17,20 @@ public interface UserMapper {
     User selectByEmail(String email);
     //增加用户，返回插入行数
     int insertUser(User user);
-    //修改User状态Status，返回修改的条数，修改了几条
+    //修改User状态Status
     int updateStatus(String userId,int userStatus);
     //更新密码
-    int updatePassword(String userId,String password);
+    boolean updatePassword(String userId,String password);
     //获取用户类型
     int getRole(String username, String password);
 
+
     //根据账号获取账户对象
-    Account getAccount(String accountNum);
-    //修改账户
-    boolean updateAccount(Account account);
+    Account getAccount(String acctId);
+    //根据账户名获取账户
+    Account findByCustName(String custName);
+    //修改账户状态
+    boolean updateAccount(String acctId, int acctStatus);
 
     //根据账户状态名称获取账户状态对象
     int getStatus(String name);

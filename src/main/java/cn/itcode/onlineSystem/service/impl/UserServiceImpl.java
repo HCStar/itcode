@@ -218,37 +218,36 @@ public class UserServiceImpl implements UserService {
         return userMapper.getAccount(accountid);
     }
 
-    //修改账户信息
     @Override
-    public Boolean modifyAccount(Account account) {
-        return userMapper.updateAccount(account);
+    public Account findByCustName(String custName) {
+        return userMapper.findByCustName(custName);
     }
 
     //启用账户
     @Override
-    public String enabled(String accountid) {
+    public Map enabled(String accountid) {
         Map map = new HashMap();
-        Account account = userMapper.getAccount(accountid);
-        boolean b = userMapper.updateAccount(account);
+        boolean b = userMapper.updateAccount(accountid, CommonConstant.ACTIVATION_SUCCESS);
         if(b == true){
-            account.setAcctStatus(CommonConstant.ACTIVATION_SUCCESS);
             map.put("msg", "账户已启用");
+        }else {
+            map.put("msg", "账户启用失败");
         }
-        return map.toString();
+        return map;
     }
 
     //冻结账户
     @Override
-    public String locking(String accountid) {
+    public Map locking(String acctId) {
         Map msg = new HashMap();
-        Account account = userMapper.getAccount(accountid);
         //获取并修改账户对象的状态属性，设置为启用
-        account.setAcctStatus(CommonConstant.ACTIVATION_REPEAT);
-        boolean b = userMapper.updateAccount(account);
+        boolean b = userMapper.updateAccount(acctId, CommonConstant.ACTIVATION_REPEAT);
         if( b == true){
             msg.put("msg", "账户已被冻结");
+        }else {
+            msg.put("msg", "账户冻结失败");
         }
-        return msg.toString();
+        return msg;
     }
 
     //管理员删除账户
@@ -291,11 +290,11 @@ public class UserServiceImpl implements UserService {
         account.setSalt(HelperUtil.generateUID().substring(0, 6));
         //对密码+salt
         account.setPassword(HelperUtil.md5(account.getPassword() + account.getSalt()));
-        //用户创建时间
+        //帐户创建时间
         account.setOpactDate(new Date());
         //设置账户状态
         account.setAcctStatus(CommonConstant.ACTIVATION_SUCCESS);
-        //用户添加到库中
+        //帐户添加到库中
         userMapper.addAccount(account);
         return map;
     }
