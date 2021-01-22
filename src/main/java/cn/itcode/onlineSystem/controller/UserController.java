@@ -44,10 +44,8 @@ public class UserController {
         User user = hostHolder.getUser();
         Map<String, Object> map = userService.updatePassword(password, newPassword, user.getUserId());
         if(map == null || map.isEmpty()){
-            //传给templates改密码成功
             resultMsg.put("msg", "密码修改成功");
         }else {
-            //修改密码失败，跳到原来的设置页面
             resultMsg.put("msg", "修改密码失败");
         }
         return ResponseUtil.suc(resultMsg.toJSONString());

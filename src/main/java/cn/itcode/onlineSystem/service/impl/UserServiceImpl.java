@@ -225,9 +225,11 @@ public class UserServiceImpl implements UserService {
 
     //启用账户
     @Override
-    public Map enabled(String accountid) {
+    public Map enabled(String acctId) {
         Map map = new HashMap();
-        boolean b = userMapper.updateAccount(accountid, CommonConstant.ACTIVATION_SUCCESS);
+        Account account = userMapper.getAccount(acctId);
+        account.setAcctStatus(CommonConstant.ACTIVATION_SUCCESS);
+        boolean b = userMapper.updateAccount(account);
         if(b == true){
             map.put("msg", "账户已启用");
         }else {
@@ -240,8 +242,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map locking(String acctId) {
         Map msg = new HashMap();
+        Account account = userMapper.getAccount(acctId);
+        account.setAcctStatus(CommonConstant.ACTIVATION_REPEAT);
         //获取并修改账户对象的状态属性，设置为启用
-        boolean b = userMapper.updateAccount(acctId, CommonConstant.ACTIVATION_REPEAT);
+        boolean b = userMapper.updateAccount(account);
         if( b == true){
             msg.put("msg", "账户已被冻结");
         }else {

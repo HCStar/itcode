@@ -69,7 +69,7 @@
             where CUST_NAME=#{custName}
         </select>
 
-        <update id="updateAccount">
+        <update id="updateAccount" >
             update account set ACCT_STATUS = #{acctStatus} where ACCT_ID = #{acctId}
         </update>
 

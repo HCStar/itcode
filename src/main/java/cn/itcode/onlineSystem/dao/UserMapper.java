@@ -30,7 +30,7 @@ public interface UserMapper {
     //根据账户名获取账户
     Account findByCustName(String custName);
     //修改账户状态
-    boolean updateAccount(String acctId, int acctStatus);
+    boolean updateAccount(Account account);
 
     //根据账户状态名称获取账户状态对象
     int getStatus(String name);
