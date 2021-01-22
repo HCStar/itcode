@@ -12,15 +12,15 @@ public interface UserMapper {
     //根据名字查询用户
     User selectByName(String userName);
     //根据用户名更新用户
-    User updateUser(String userName);
+    Boolean updateUser(String userName);
     //Email查询用户
     User selectByEmail(String email);
     //增加用户，返回插入行数
     int insertUser(User user);
     //修改User状态Status，返回修改的条数，修改了几条
-    int updateStatus(int id,int userStatus);
+    int updateStatus(String userId,int userStatus);
     //更新密码
-    int updatePassword(String id,String password);
+    int updatePassword(String userId,String password);
     //获取用户类型
     int getRole(String username, String password);
 

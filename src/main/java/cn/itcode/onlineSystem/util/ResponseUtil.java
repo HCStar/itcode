@@ -52,6 +52,10 @@ public class ResponseUtil<T> implements Serializable {
             return new ResponseUtil();
         }
 
+        public static ResponseUtil suc(String msg, Object data) {
+            return new ResponseUtil(true, HttpStatus.SC_OK, msg, data);
+    }
+
         public ResponseUtil(Boolean ret, int code, String msg, T data){
             this.ret = ret;
             this.code = code;

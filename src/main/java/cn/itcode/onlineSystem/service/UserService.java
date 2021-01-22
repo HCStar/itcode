@@ -21,9 +21,9 @@ public interface UserService {
     //冻结账户
     public String locking(String id);
     //删除账户
-    public String delAccount(String id);
+    public Map delAccount(String id);
     //管理员开户
-    public String addAccount(Account account);
+    public Map addAccount(Account account);
 
     //根据id查找用户
     public User findUserById(String id);
@@ -32,7 +32,7 @@ public interface UserService {
 
 //    public int activation(int userId,String code);
 
-    public Map<String,Object> login(String username,String password,int expiredSeconds);
+    public Map<String,Object> login(String userName,String password,int expiredSeconds);
 
     public void logout(String ticket);
 
@@ -40,11 +40,11 @@ public interface UserService {
 
     public Map<String,Object> updatePassword(String password,String newPassword,String id);
 
-    public User findUserByName(String username);
+    public User findUserByName(String userName);
 
     public User selectByUserId(String userId);
 
-    public User updateUser(String username);
+    public Boolean updateUser(String userName);
 
     public Collection<? extends GrantedAuthority> getAuthorities(String userId);
 }

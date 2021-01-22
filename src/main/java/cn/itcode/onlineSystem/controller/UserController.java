@@ -73,8 +73,8 @@ public class UserController {
         if(user1 == null){
             throw new RuntimeException("该用户不存在");
         }
-        User updateUser = userService.updateUser(username);
-        return ResponseUtil.suc(updateUser);
+        userService.updateUser(username);
+        return ResponseUtil.suc("修改成功");
     }
 
     //开启用户
@@ -101,21 +101,28 @@ public class UserController {
     //删除账户
     @LoginRequired
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ResponseUtil delAccount(@RequestParam String accountNum){
-        JSONObject resultMsg = new JSONObject();
-        if(Strings.isNullOrEmpty(accountNum)){
-            resultMsg.put("msg", "请输入账号");
+    public ResponseUtil delAccount(@RequestParam String acctId){
+        if(Strings.isNullOrEmpty(acctId)){
+            return ResponseUtil.error("请输入账号");
         }
-        String s = userService.delAccount(accountNum);
-        resultMsg.put("msg", s);
-        return ResponseUtil.suc(resultMsg.toJSONString());
+        Map map = userService.delAccount(acctId);
+        return ResponseUtil.suc(map.get("msg"));
     }
 
     //开户
     @LoginRequired
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     public ResponseUtil addAcount(@RequestBody Account account){
-        String msg = userService.addAccount(account);
-        return ResponseUtil.suc(msg);
+       try {
+           Map map = userService.addAccount(account);
+           if (map == null || map.isEmpty()){
+               return ResponseUtil.suc("添加账户成功");
+           }else {
+               return ResponseUtil.error(map.get("msg").toString());
+           }
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+       return null;
     }
 }

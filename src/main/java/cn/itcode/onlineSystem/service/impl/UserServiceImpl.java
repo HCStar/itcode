@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(String username) {
+    public Boolean updateUser(String username) {
         return userMapper.updateUser(username);
     }
 
@@ -231,12 +231,8 @@ public class UserServiceImpl implements UserService {
         Account account = userMapper.getAccount(accountid);
         boolean b = userMapper.updateAccount(account);
         if(b == true){
-            account.setStatus(CommonConstant.ACTIVATION_SUCCESS);
+            account.setAcctStatus(CommonConstant.ACTIVATION_SUCCESS);
             map.put("msg", "账户已启用");
-        }
-        else {
-            account.setStatus(CommonConstant.ACTIVATION_FAILURE);
-            map.put("msg", "账户启用失败,请重试");
         }
         return map.toString();
     }
@@ -247,7 +243,7 @@ public class UserServiceImpl implements UserService {
         Map msg = new HashMap();
         Account account = userMapper.getAccount(accountid);
         //获取并修改账户对象的状态属性，设置为启用
-        account.setStatus(CommonConstant.ACTIVATION_REPEAT);
+        account.setAcctStatus(CommonConstant.ACTIVATION_REPEAT);
         boolean b = userMapper.updateAccount(account);
         if( b == true){
             msg.put("msg", "账户已被冻结");
@@ -257,26 +253,50 @@ public class UserServiceImpl implements UserService {
 
     //管理员删除账户
     @Override
-    public String delAccount(String accountid) {
+    public Map delAccount(String accountNum) {
         Map map = new HashMap();
-        Account account = userMapper.getAccount(accountid);
-        account.setStatus(CommonConstant.ACTIVATION_FAILURE);
+        Account account = userMapper.getAccount(accountNum);
         boolean b = userMapper.delAccount(account);
         if (b == true){
+            account.setAcctStatus(CommonConstant.ACTIVATION_FAILURE);
             map.put("msg", "删除账户成功");
+        }else {
+            map.put("msg", "删除账户失败");
         }
-        return map.toString();
+        return map;
     }
 
     //管理员开户
     @Override
-    public String addAccount(Account account) {
-        Map map = new HashMap();
-        boolean b = userMapper.addAccount(account);
-        account.setStatus(CommonConstant.ACTIVATION_SUCCESS);
-        if(b == true){
-            map.put("msg", "开户成功");
+    public Map addAccount(Account account) {
+        Map<String, Object> map = new HashMap<>();
+        if(account == null){
+            try {
+                throw new IllegalAccessException("参数不能为空");
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
-        return map.toString();
+        if(Strings.isNullOrEmpty(account.getCustName()) || Strings.isNullOrEmpty(account.getPassword())) {
+            map.put("errMsg", "账户或密码为空");
+            return map;
+        }
+        //判断用户
+        Account acct = userMapper.getAccount(account.getCustName());
+        if (acct != null){
+            map.put("errMsg", "该账号已存在");
+            return map;
+        }
+        //上述验证均通过，开始添加账户
+        account.setSalt(HelperUtil.generateUID().substring(0, 6));
+        //对密码+salt
+        account.setPassword(HelperUtil.md5(account.getPassword() + account.getSalt()));
+        //用户创建时间
+        account.setOpactDate(new Date());
+        //设置账户状态
+        account.setAcctStatus(CommonConstant.ACTIVATION_SUCCESS);
+        //用户添加到库中
+        userMapper.addAccount(account);
+        return map;
     }
 }

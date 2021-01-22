@@ -17,8 +17,6 @@ l
 <src/main/java/cn/itcode/onlineSystem/entity/AccountPojo.java,7/f/7fce7ef09fa3795ab48f570e469095737278e340
 u
 Esrc/main/java/cn/itcode/onlineSystem/controller/PersonController.java,0/f/0f76800b4f7ce070a38220e4759dd2a185660b99
-k
-;src/main/java/cn/itcode/onlineSystem/entity/PersonPojo.java,6/7/67a9e44de9b220b305206529f9b5db8f40d0877b
 j
 :src/main/java/cn/itcode/onlineSystem/dao/PersonMapper.java,e/b/eb076e0fccadf1187b2b433bfdd95509faa5db20
 i

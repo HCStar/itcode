@@ -71,8 +71,9 @@ public class LoginController implements CommonConstant {
             //生效的地方
             cookie.setPath(contextPath);
             response.addCookie(cookie);
-            //登录成功，重定向回到index页面
-            return ResponseUtil.suc("登录成功");
+            User user = userService.findUserByName(username);
+            //登录成功，返回用户信息
+            return ResponseUtil.suc("登录成功", user);
         }else {
             return ResponseUtil.error(map.get("errMsg").toString());
         }
